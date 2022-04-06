@@ -1,38 +1,82 @@
-import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
+import React, {Component} from 'react';
+import { Pressable, View, Text, Button,LogBox } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-// You can import from local files
-import AssetExample from './components/AssetExample';
+//icons for tab navigator
+import Icon from 'react-native-ionicons';
 
-// or any pure javascript modules available in npm
-import { Card } from 'react-native-paper';
+import {asGlobalState,setGlobalState,addGlobalStateListener,removeGlobalStateListener} from './common/globalState';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.paragraph}>
-        Change code in the editor and watch it change on your phone! Save to get a shareable url.
-      </Text>
-      <Card>
-        <AssetExample />
-      </Card>
-    </View>
-  );
+import auth from '@react-native-firebase/auth';
+
+import HomeScreen from './screens/HomeScreen';
+import EntryScreen from './screens/EntryScreen';
+import EditEntryScreen from './screens/EditEntryScreen';
+
+
+// Initialize Navigations
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+class FoodDiaryStack extends Component {
+  render() {
+    return (
+      <Stack.Navigator>
+
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            title: "Activity",
+            headerShown: false
+          }}
+        />
+
+        <Stack.Screen
+          name="EditEntry"
+          component={EditEntryScreen}
+          options={{
+            title: "Edit Your Meal",
+          }}
+        />
+
+      </Stack.Navigator>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
+export default class App extends Component {
+  render() {
+    
+    return (
+
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+              if (route.name === "Entries") {
+                iconName = focused ? "home" : "home-outline";
+              } else if (route.name === "Add") {
+                iconName = focused ? "person-circle" : "person-circle-outline";
+              }
+
+              return <Icon name={iconName} size={size} color={color} />;
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: "blue",
+            inactiveTintColor: "black",
+          }}
+        >
+          <Tab.Screen name="Entries" component={FoodDiaryStack} options = {{headerShown: false}} />
+          <Tab.Screen name="Record a meal" component={EntryScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+      
+    );
+  }
+}
