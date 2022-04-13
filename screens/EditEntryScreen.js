@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Button, Text, View, StyleSheet } from "react-native";
+import {asGlobalState,setGlobalState,addGlobalStateListener,removeGlobalStateListener} from '../common/globalState';
 
-export default class Account extends Component {
+export default class EditEntry extends Component {
   render() {
     const { navigation, route } = this.props;
     return (

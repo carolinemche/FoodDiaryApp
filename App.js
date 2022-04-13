@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { Pressable, View, Text, Button,LogBox } from 'react-native';
+import React, { Component } from 'react';
+import { Pressable, View, Text, Button, LogBox } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,7 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 //icons for tab navigator
 import Icon from 'react-native-ionicons';
 
-import {asGlobalState,setGlobalState,addGlobalStateListener,removeGlobalStateListener} from './common/globalState';
+import { asGlobalState, setGlobalState, addGlobalStateListener, removeGlobalStateListener } from './common/globalState';
 
 import auth from '@react-native-firebase/auth';
 
@@ -50,7 +50,7 @@ class FoodDiaryStack extends Component {
 
 export default class App extends Component {
   render() {
-    
+
     return (
 
       <NavigationContainer>
@@ -72,11 +72,11 @@ export default class App extends Component {
             inactiveTintColor: "black",
           }}
         >
-          <Tab.Screen name="Entries" component={FoodDiaryStack} options = {{headerShown: false}} />
+          <Tab.Screen name="Entries" component={FoodDiaryStack} options={{ headerShown: false }} />
           <Tab.Screen name="Record a meal" component={EntryScreen} />
         </Tab.Navigator>
       </NavigationContainer>
-      
+
     );
   }
 }
